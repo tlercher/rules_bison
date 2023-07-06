@@ -10,7 +10,7 @@ Bazel rules for GNU Bison.
 ## bison
 
 <pre>
-bison(<a href="#bison-name">name</a>, <a href="#bison-bison_options">bison_options</a>, <a href="#bison-skeleton">skeleton</a>, <a href="#bison-src">src</a>)
+bison(<a href="#bison-name">name</a>, <a href="#bison-bison_options">bison_options</a>, <a href="#bison-skeleton">skeleton</a>, <a href="#bison-src">src</a>, <a href="#bison-language">language</a>)
 </pre>
 
 Generate source code for a Bison parser.
@@ -39,15 +39,17 @@ bison(
 | <a id="bison-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
 | <a id="bison-bison_options"></a>bison_options |  Additional options to pass to the <code>bison</code> command.<br><br>These will be added to the command args immediately before the source file.   | List of strings | optional | <code>[]</code> |
 | <a id="bison-skeleton"></a>skeleton |  Specify the skeleton to use.<br><br>This file is used as a template for rendering the generated parser. See the Bison documentation regarding the <code>%skeleton</code> directive for more details.   | <a href="https://bazel.build/concepts/labels">Label</a> | optional | <code>None</code> |
-| <a id="bison-src"></a>src |  A Bison source file.<br><br>The source's file extension will determine whether Bison operates in C or C++ mode:<ul> <li>Inputs with file extension <code>.y</code> generate outputs <code>{name}.c</code> and <code>{name}.h</code>. </li><li>Inputs with file extension <code>.yy</code>, <code>.y++</code>, <code>.yxx</code>, or <code>.ypp</code> generate outputs     <code>{name}.cc</code> and <code>{name}.h</code>. </li>  </ul> | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
-
+| <a id="bison-src"></a>src |  A Bison source file. | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
+| <a id="bison-language"></a>language | Specify the output language bison uses. <br><br><ul><li>`c`: The generated files will be C</li><li>`c++`: The generated files will be C++</li><li>`auto`: The source's file extension will determine whether Bison operates in C or C++ mode:<ul> <li>Inputs with file extension <code>.y</code> generate outputs <code>{name}.c</code> and <code>{name}.h</code>. </li><li>Inputs with file extension <code>.yy</code>, <code>.y++</code>, <code>.yxx</code>, or <code>.ypp</code> generate outputs     <code>{name}.cc</code> and <code>{name}.h</code>. </li>  </ul></li></ul> | String | optional | <code>auto</code> |
 
 <a id="bison_cc_library"></a>
 
 ## bison_cc_library
 
 <pre>
-bison_cc_library(<a href="#bison_cc_library-name">name</a>, <a href="#bison_cc_library-bison_options">bison_options</a>, <a href="#bison_cc_library-deps">deps</a>, <a href="#bison_cc_library-include_prefix">include_prefix</a>, <a href="#bison_cc_library-skeleton">skeleton</a>, <a href="#bison_cc_library-src">src</a>, <a href="#bison_cc_library-strip_include_prefix">strip_include_prefix</a>)
+bison_cc_library(<a href="#bison_cc_library-name">name</a>, <a href="#bison_cc_library-bison_options">bison_options</a>, <a href="#bison_cc_library-deps">deps</a>, <a href="#bison_cc_library-include_prefix">include_prefix</a>, <a href="#bison_cc_library-skeleton">skeleton</a>, <a href="#bison_cc_library-src">src</a>, <a
+href="#bison_cc_library-language">language</a>, <a
+href="#bison_cc_library-strip_include_prefix">strip_include_prefix</a>)
 </pre>
 
 Generate a C/C++ library for a Bison parser.
@@ -82,7 +84,8 @@ cc_binary(
 | <a id="bison_cc_library-deps"></a>deps |  A list of other C/C++ libraries to depend on.   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional | <code>[]</code> |
 | <a id="bison_cc_library-include_prefix"></a>include_prefix |  A prefix to add to the path of the generated header.<br><br>See [<code>cc_library.include_prefix</code>](https://bazel.build/reference/be/c-cpp#cc_library.include_prefix) for more details.   | String | optional | <code>""</code> |
 | <a id="bison_cc_library-skeleton"></a>skeleton |  Specify the skeleton to use.<br><br>This file is used as a template for rendering the generated parser. See the Bison documentation regarding the <code>%skeleton</code> directive for more details.   | <a href="https://bazel.build/concepts/labels">Label</a> | optional | <code>None</code> |
-| <a id="bison_cc_library-src"></a>src |  A Bison source file.<br><br>The source's file extension will determine whether Bison operates in C or C++ mode:<ul> <li>Inputs with file extension <code>.y</code> generate outputs <code>{name}.c</code> and <code>{name}.h</code>. </li><li>Inputs with file extension <code>.yy</code>, <code>.y++</code>, <code>.yxx</code>, or <code>.ypp</code> generate outputs     <code>{name}.cc</code> and <code>{name}.h</code>. </li>  </ul> | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
+| <a id="bison_cc_library-src"></a>src |  A Bison source file. | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
+| <a id="bison_cc_library-language"></a>language | Specify the output language bison uses. <br><br><ul><li>`c`: The generated files will be C</li><li>`c++`: The generated files will be C++</li><li>`auto`: The source's file extension will determine whether Bison operates in C or C++ mode:<ul> <li>Inputs with file extension <code>.y</code> generate outputs <code>{name}.c</code> and <code>{name}.h</code>. </li><li>Inputs with file extension <code>.yy</code>, <code>.y++</code>, <code>.yxx</code>, or <code>.ypp</code> generate outputs     <code>{name}.cc</code> and <code>{name}.h</code>. </li>  </ul></li></ul> | String | optional | <code>auto</code> |
 | <a id="bison_cc_library-strip_include_prefix"></a>strip_include_prefix |  A prefix to strip from the path of the generated header.<br><br>See [<code>cc_library.strip_include_prefix</code>](https://bazel.build/reference/be/c-cpp#cc_library.strip_include_prefix) for more details.   | String | optional | <code>""</code> |
 
 

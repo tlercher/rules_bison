@@ -30,10 +30,23 @@ bison_cc_library(
     deps = [":hello_common"],
 )
 
+bison_cc_library(
+    name = "hello_c_override",
+    src = "hello_c.yy",
+    language = "c",
+    deps = [":hello_common"],
+)
+
 cc_binary(
     name = "hello_c_bin",
     srcs = ["hello_c.c"],
     deps = [":hello_c"],
+)
+
+cc_binary(
+    name = "hello_c_override_bin",
+    srcs = ["hello_c_override.c"],
+    deps = [":hello_c_override"],
 )
 
 bison_cc_library(
@@ -42,10 +55,23 @@ bison_cc_library(
     deps = [":hello_common"],
 )
 
+bison_cc_library(
+    name = "hello_cc_override",
+    src = "hello_cc.y",
+    language = "c++",
+    deps = [":hello_common"],
+)
+
 cc_binary(
     name = "hello_cc_bin",
     srcs = ["hello_cc.cc"],
     deps = [":hello_cc"],
+)
+
+cc_binary(
+    name = "hello_cc_override_bin",
+    srcs = ["hello_cc_override.cc"],
+    deps = [":hello_cc_override"],
 )
 
 bison_java_library(

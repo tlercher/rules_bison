@@ -78,10 +78,15 @@ def _cc_library(ctx, bison_result):
     )
 
 def _bison_cc_library(ctx):
-    if ctx.file.src.extension == "y":
+    if ctx.attr.language == "c":
         language = "c"
-    else:
+    elif ctx.attr.language == "c++":
         language = "c++"
+    else:
+        if ctx.file.src.extension == "y":
+            language = "c"
+        else:
+            language = "c++"
     result = bison_action(ctx, language)
     cc_lib = _cc_library(ctx, result)
     return [
@@ -125,6 +130,15 @@ mode:
 """,
             mandatory = True,
             allow_single_file = [".y", ".yy", ".y++", ".yxx", ".ypp"],
+        ),
+        "language": attr.string(
+            doc = """Programming language to use.
+
+Valid values are either `c`, `c++` or `auto`. Default value is `auto`.
+""",
+            mandatory = False,
+            default = "auto",
+            values = ["c", "c++", "auto"],
         ),
         "deps": attr.label_list(
             doc = "A list of other C/C++ libraries to depend on.",

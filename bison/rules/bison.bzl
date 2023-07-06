@@ -24,10 +24,15 @@ load(
 )
 
 def _bison(ctx):
-    if ctx.file.src.extension == "y":
+    if ctx.attr.language == "c":
         language = "c"
-    else:
+    elif ctx.attr.language == "c++":
         language = "c++"
+    else:
+        if ctx.file.src.extension == "y":
+            language = "c"
+        else:
+            language = "c++"
     result = bison_action(ctx, language)
     return [
         DefaultInfo(files = result.outs),
@@ -62,9 +67,20 @@ mode:
   - Inputs with file extension `.y` generate outputs `{name}.c` and `{name}.h`.
   - Inputs with file extension `.yy`, `.y++`, `.yxx`, or `.ypp` generate outputs
     `{name}.cc` and `{name}.h`.
+
+This behavior can be overriden with the `language` attribute.
 """,
             mandatory = True,
             allow_single_file = [".y", ".yy", ".y++", ".yxx", ".ypp"],
+        ),
+        "language": attr.string(
+            doc = """Programming language to use.
+
+Valid values are either `c`, `c++` or `auto`. Default value is `auto`.
+""",
+            mandatory = False,
+            default = "auto",
+            values = ["c", "c++", "auto"],
         ),
     }),
     provides = [
