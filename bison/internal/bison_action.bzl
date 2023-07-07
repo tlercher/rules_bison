@@ -77,9 +77,11 @@ def bison_action(ctx, language):
     """
     bison = bison_toolchain(ctx)
 
+    out_name = ctx.attr.output_name or ctx.attr.name
+
     out_src_ext = _SRC_EXT[language]
 
-    out_src = ctx.actions.declare_file("{}.{}".format(ctx.attr.name, out_src_ext))
+    out_src = ctx.actions.declare_file("{}.{}".format(out_name, out_src_ext))
     out_xml = ctx.actions.declare_file("{}_report.xml".format(ctx.attr.name))
     out_dot = ctx.actions.declare_file("{}_report.dot".format(ctx.attr.name))
     out_txt = ctx.actions.declare_file("{}_report.txt".format(ctx.attr.name))
@@ -102,7 +104,7 @@ def bison_action(ctx, language):
 
     out_hdr = None
     if language != "java":
-        out_hdr = ctx.actions.declare_file("{}.h".format(ctx.attr.name))
+        out_hdr = ctx.actions.declare_file("{}.h".format(out_name))
         parser_files.append(out_hdr)
         args.add("--defines=" + out_hdr.path)
 

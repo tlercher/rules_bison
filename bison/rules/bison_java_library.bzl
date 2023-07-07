@@ -25,7 +25,8 @@ load(
 
 def _bison_java_library(ctx):
     result = bison_action(ctx, "java")
-    out_jar = ctx.actions.declare_file("lib{}.jar".format(ctx.attr.name))
+    out_filename = ctx.attr.output_name or "lib{}".format(ctx.attr.name)
+    out_jar = ctx.actions.declare_file("{}.jar".format(out_filename))
 
     compile_kwargs = {}
 
@@ -81,6 +82,13 @@ java_binary(
         "deps": attr.label_list(
             doc = "A list of other Java libraries to depend on.",
             providers = [JavaInfo],
+        ),
+        "output_name": attr.string(
+            doc = """Name to use as a output filename (without extension).
+
+Allows overriding the desired output file name if it differs from `{name}`.
+""",
+            mandatory = False,
         ),
         "_host_javabase": attr.label(
             default = "@bazel_tools//tools/jdk:current_host_java_runtime",

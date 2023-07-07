@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "tests/hello_c_override.h"
+#include "tests/hello_c_test_override.h"
 #include "tests/hello_common.h"
 
 static int next_token = HELLO;

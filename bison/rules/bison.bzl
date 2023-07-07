@@ -82,6 +82,13 @@ Valid values are either `c`, `c++` or `auto`. Default value is `auto`.
             default = "auto",
             values = ["c", "c++", "auto"],
         ),
+        "output_name": attr.string(
+            doc = """Name to use as a output filename (without extension).
+
+Allows overriding the desired output file name if it differs from `{name}`.
+""",
+            mandatory = False,
+        ),
     }),
     provides = [
         DefaultInfo,

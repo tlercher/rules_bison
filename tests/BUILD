@@ -34,6 +34,7 @@ bison_cc_library(
     name = "hello_c_override",
     src = "hello_c.yy",
     language = "c",
+    output_name = "hello_c_test_override",
     deps = [":hello_common"],
 )
 
@@ -59,6 +60,7 @@ bison_cc_library(
     name = "hello_cc_override",
     src = "hello_cc.y",
     language = "c++",
+    output_name = "hello_cc_test_override",
     deps = [":hello_common"],
 )
 
@@ -93,6 +95,8 @@ filegroup(
         ":genrule_test",
         ":hello_c_bin",
         ":hello_cc_bin",
+        ":hello_c_override_bin",
+        ":hello_cc_override_bin",
     ],
 )
 
